@@ -1,62 +1,137 @@
-function Trivia(question, answerRight, answer2, answer3, answer4){
-    this.question = question,
-    this.answerRight = answerRight,
-    this.answer2 = answer2,
-    this.answer3 = answer3,
-    this.answer4 = answer4
-}
-
-var first = new Trivia(
-    "The beaver is the national emblem of which country?",
-    "Canada",
-    "United States of America",
-    "Australia",
-    "Africa"
-)
-
-var second = new Trivia(
-    "Which TV character said, “Live long and prosper”?",
-    "Mr. Spock",
-    "Aragorn",
-    "Luke Skywalker",
-    "Superman"
-)
-
-var third = new Trivia(
-    "What is the name of Batman’s butler?",
-    "Alfred",
-    "Gordon",
-    "Robin",
-    "Bruce"
-)
-
-var questions = [first, second, third];
-
-function printQ(object){
-    var field = [".field1", ".field2", ".field3", ".field4"];
-    var answers = ["answerRight", "answer2", "answer3", "answer4"];
+var trivia = {
+    right : 0,
+    wrong : 0,
+    missed : 0,
+    currentQ : 0,
+    timer : 0,
+    clockRunning : "",
     
-    var index;
-    var x = 4;
-    $(".question").text(object.question);
-    for(let i = 0; i < 4; i++){
-        index = Math.floor(Math.random()*x);
-        console.log(index);
-        $(field[i]).text(object[answers[index]]);
-        answers.splice(index, 1);
-        x--;
+    questions : {
+        q1 : "What are Durin's Folk more commonly known as?",
+        q2 : "What kind of creatures are the spawn of Ungoliant?",
+        q3 : "Which of these is not a public inn in Middle Earth?"
+    },
+
+    choices : {
+        q1 : ["Hobbits from outside The Shire", "Dwarves", "Forest Elves", "Great Eagles"],
+        q2 : ["Hill Giants", "Uruk-hai", "Giant Spiders", "Flying fell beasts"],
+        q3 : ["The Old Guesthouse", "The Green Dragon", "The Prancing Pony", "The Southern Star"]
+    },
+
+    answers : {
+        q1 : "Dwarves",
+        q2 : "Giant Spiders",
+        q3 : "The Southern Star"
+    },
+
+    next : function(){
+        //set timer to 0
+        trivia.timer = 10;
+        $(".time").text(trivia.timer);
+        //start timer
+        trivia.clockRunning = setInterval(trivia.clock, 1000);
+        //display question and answers, get questions and answers from object
+        var question = Object.values(trivia.questions)[trivia.currentQ];
+        console.log(question);
+        var options = Object.values(trivia.choices)[trivia.currentQ];
+        console.log(options);
+
+        $(".question").text(question);
+
+        $.each(options, function(index, value){
+            $(".field" + index).text(value);
+        });
+    },
+
+    clock : function(){
+        if(trivia.timer <= 0 ){
+            trivia.currentQ++;
+            trivia.next();
+            clearInterval(trivia.clockRunning);
+        }
+        else {
+        trivia.timer--;
+        $(".time").text(trivia.timer);
+        }
+
+
     }
+
 }
 
-function chooseQ(){
-    var index;
-    index = Math.floor(Math.random()*questions.length);
-    printQ(questions[index]);
-    questions.splice(index, 1);
-}
+
+
+
+
+
+
+// function Trivia(question, answerRight, answer2, answer3, answer4){
+//     this.question = question,
+//     this.answerRight = answerRight,
+//     this.answer2 = answer2,
+//     this.answer3 = answer3,
+//     this.answer4 = answer4
+// }
+
+// var first = new Trivia(
+//     "The beaver is the national emblem of which country?",
+//     "Canada",
+//     "United States of America",
+//     "Australia",
+//     "Africa"
+// )
+
+// var second = new Trivia(
+//     "Which TV character said, “Live long and prosper”?",
+//     "Mr. Spock",
+//     "Aragorn",
+//     "Luke Skywalker",
+//     "Superman"
+// )
+
+// var third = new Trivia(
+//     "What is the name of Batman’s butler?",
+//     "Alfred",
+//     "Gordon",
+//     "Robin",
+//     "Bruce"
+// )
+
+// var questions = [first, second, third];
+// var time = 0;
+
+// function printQ(object){
+//     var field = [".field1", ".field2", ".field3", ".field4"];
+//     var answers = ["answerRight", "answer2", "answer3", "answer4"];
+    
+//     var index;
+//     var x = 4;
+//     $(".question").text(object.question);
+//     for(let i = 0; i < 4; i++){
+//         index = Math.floor(Math.random()*x);
+//         console.log(index);
+//         $(field[i]).text(object[answers[index]]);
+//         answers.splice(index, 1);
+//         x--;
+//     }
+// }
+
+// function chooseQ(){
+//     var index;
+//     index = Math.floor(Math.random()*questions.length);
+//     printQ(questions[index]);
+//     questions.splice(index, 1);
+// }
+
+// function count(){
+//     time++;
+//     $(".time").text(time);
+// }
 
 $(document).ready(function(){
+    
 
-$(".test").on("click", chooseQ);
+trivia.next();
+    
 
 })
