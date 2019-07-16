@@ -5,6 +5,7 @@ var trivia = {
     currentQ : 0,
     timer : 0,
     clockRunning : "",
+    answerChosen : false,
     
     questions : {
         q1 : "What are Durin's Folk more commonly known as?",
@@ -35,29 +36,76 @@ var trivia = {
         console.log(question);
         var options = Object.values(trivia.choices)[trivia.currentQ];
         console.log(options);
-
+        //print question to question field
         $(".question").text(question);
-
+        //print each option to option fields
         $.each(options, function(index, value){
             $(".field" + index).text(value);
         });
     },
 
     clock : function(){
-        if(trivia.timer <= 0 ){
+        //reaches 0 and nothing picked increment wrong
+        //time greater than zero decrease timer
+        //timer zero and questions remaining 
+
+        if(trivia.timer === 0 && trivia.currentQ < 3){
+            if (trivia.answerChosen === false){
+                trivia.missed++;
+                console.log(trivia.missed);
+            }
             trivia.currentQ++;
             trivia.next();
             clearInterval(trivia.clockRunning);
         }
+        else if (trivia.timer > 0 && trivia.currentQ < 3) {
+            trivia.timer--;
+            $(".time").text(trivia.timer);
+        }
         else {
-        trivia.timer--;
-        $(".time").text(trivia.timer);
+            clearInterval(trivia.clockRunning);
         }
 
+
+    },
+
+    guess : function(){
+        //check clicked value with answer
+        
+        var thisAnswer = trivia.answers[trivia.currentQ];
+        //if wrong ++ wrong set answer chosen to true
+        if(thisAnswer === $(this).text()){
+            trivia.right++;
+            console.log(trivia.right);
+            clearInterval(trivia.clockRunning);
+        }
+        //if right ++ right set answer chosen to true
+        else {
+            trivia.wrong++;
+            console.log(trivia.wrong);
+            clearInterval(trivia.clockRunning);
+        }
+
+        trivia.currentQ++;
+        console.log(trivia.currentQ)
+        if (trivia.currentQ > 2){
+            //call end game function
+        } else {
+            trivia.next();
+        }
 
     }
 
 }
+
+$(document).ready(function(){
+    
+
+    trivia.next();
+    
+    $(".choice").on("click", trivia.guess)
+    
+})
 
 
 
@@ -128,10 +176,3 @@ var trivia = {
 //     $(".time").text(time);
 // }
 
-$(document).ready(function(){
-    
-
-trivia.next();
-    
-
-})
