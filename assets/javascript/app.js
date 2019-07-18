@@ -90,10 +90,21 @@ var trivia = {
         console.log(trivia.currentQ)
         if (trivia.currentQ > 2){
             //call end game function
+            trivia.endGame();
         } else {
             trivia.next();
         }
 
+    },
+
+    endGame : function(){
+        clearInterval(trivia.clockRunning);
+        $(".question").text("Game Over!");
+        $(".field0"). text("Correct: " + trivia.right);
+        $(".field1"). text("Wrong: " + trivia.wrong);
+        $(".field2"). text("Missed: " + trivia.missed);
+        $(".field3"). text("");
+        $(".time").text("");
     }
 
 }
