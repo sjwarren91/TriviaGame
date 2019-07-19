@@ -13,13 +13,14 @@ body {
     box-shadow: inset -3px -3px 2px 0px #FF8301, inset 5px 5px 10px 0px rgb(104, 13, 1), -3px -3px 0 0 rgb(255, 187, 1);
     /*box-shadow: 5px 5px 20px yellow, 5px 5px 5px orange, -5px -5px 20px yellow, -5px -5px 5px orange;*/
     width: 40vw;
-    height: 39vh;
+    height: 366px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 25px solid #B61802;
     border-radius: 20px;
+    overflow: auto;
 }
 
 .question {
@@ -36,8 +37,16 @@ body {
     position: absolute;
     background-color: rgb(255, 246, 223);
     border-radius: 50%;
-    z-index: 99;
-    animation: flash linear infinite 3s;
+    animation: flash 3s linear 0s infinite;
+}
+
+.lLed {
+    height: 9px;
+    width: 9px;
+    position: absolute;
+    background-color: rgb(255, 246, 223);
+    border-radius: 50%;
+    animation: flash 3s linear 1.5s infinite;
 }
 
 @keyframes flash {

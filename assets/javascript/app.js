@@ -1,37 +1,62 @@
 var x = (window.innerWidth * 0.4 - 60)/6;
-var y = (window.innerHeight * 0.39 + 20) / 4;
+var y = ($(".container").height()/ 4) + 6;
+var x1 = ((window.innerWidth * 0.4 - 60)/12);
+var y1 = ($(".container").height()/8) + 6;
 var width = $(".container").width() +28;
+var height = $(".container").height()+28;
 
 var bigLedArray = [
-    {top: "4px", left: x + "px"},
-    {top: "4px", left: 2*x + "px"},
-    {top: "4px", left: 3*x + "px"},
-    {top: "4px", left: 4*x + "px"},
-    {top: "4px", left: 5*x + "px"},
-    {top: "4px", left: 6*x + "px"},
-    {top: "394px", left: x + "px"},
-    {top: "394px", left: 2*x + "px"},
-    {top: "394px", left: 3*x + "px"},
-    {top: "394px", left: 4*x + "px"},
-    {top: "394px", left: 5*x + "px"},
-    {top: "394px", left: 6*x + "px"},
-    {top: "8px", left: "4px"},
-    {top: "390px", left: "4px"},
-    {top: y + "px", left: "4px"},
-    {top: 2*y + "px", left: "4px"},
-    {top: 3*y + "px", left: "4px"},
-    {top: y + "px", left: width + "px"},
-    {top: 2*y + "px", left: width + "px"},
-    {top: 3*y + "px", left: width + "px"},
-    {top: "8px", left: width + "px"},
-    {top: "390px", left: width + "px"}
+    {top: "4px", left: x + "px", class: "bled"},
+    {top: "4px", left: 2*x + "px", class: "bled"},
+    {top: "4px", left: 3*x + "px", class: "bled"},
+    {top: "4px", left: 4*x + "px", class: "bled"},
+    {top: "4px", left: 5*x + "px", class: "bled"},
+    {top: "4px", left: 6*x + "px", class: "bled"},
+    {top: height + "px", left: x + "px", class: "bled"},
+    {top: height + "px", left: 2*x + "px", class: "bled"},
+    {top: height + "px", left: 3*x + "px", class: "bled"},
+    {top: height + "px", left: 4*x + "px", class: "bled"},
+    {top: height + "px", left: 5*x + "px", class: "bled"},
+    {top: height + "px", left: 6*x + "px", class: "bled"},
+    {top: "8px", left: "4px", class: "bled"},
+    {top: height + "px", left: "4px", class: "bled"},
+    {top: y + "px", left: "4px", class: "bled"},
+    {top: 2*y + "px", left: "4px", class: "bled"},
+    {top: 3*y + "px", left: "4px", class: "bled"},
+    {top: y + "px", left: width + "px", class: "bled"},
+    {top: 2*y + "px", left: width + "px", class: "bled"},
+    {top: 3*y + "px", left: width + "px", class: "bled"},
+    {top: "8px", left: width + "px", class: "bled"},
+    {top: height + "px", left: width + "px", class: "bled"},
+    {top: "8px", left: x1 + "px", class: "lLed"},
+    {top: "8px", left: 3*x1+4 + "px", class: "lLed"},
+    {top: "8px", left: 5*x1+4 + "px", class: "lLed"},
+    {top: "8px", left: 7*x1+4 + "px", class: "lLed"},
+    {top: "8px", left: 9*x1+4 + "px", class: "lLed"},
+    {top: "8px", left: 11*x1+4 + "px", class: "lLed"},
+    {top: "8px", left: 13*x1+4 + "px", class: "lLed"},
+    {top: height + 4 + "px", left: x1 + "px", class: "lLed"},
+    {top: height + 4 + "px", left: 3*x1+4 + "px", class: "lLed"},
+    {top: height + 4 + "px", left: 5*x1+4 + "px", class: "lLed"},
+    {top: height + 4 + "px", left: 7*x1+4 + "px", class: "lLed"},
+    {top: height + 4 + "px", left: 9*x1+4 + "px", class: "lLed"},
+    {top: height + 4 + "px", left: 11*x1+4 + "px", class: "lLed"},
+    {top: height + 4 + "px", left: 13*x1+4 + "px", class: "lLed"},
+    {top: y1 + "px", left: "8px", class: "lLed"},
+    {top: 3*y1 + "px", left: "8px", class: "lLed"},
+    {top: 5*y1 + "px", left: "8px", class: "lLed"},
+    {top: 7*y1 + "px", left: "8px", class: "lLed"},
+    {top: y1 + "px", left: width + 4 +"px", class: "lLed"},
+    {top: 3*y1 + "px", left: width + 4 +"px", class: "lLed"},
+    {top: 5*y1 + "px", left: width + 4 +"px", class: "lLed"},
+    {top: 7*y1 + "px", left: width + 4 +"px", class: "lLed"}
     
 ];
 
 function bigLeds (){
     for(let i = 0; i < bigLedArray.length; i++){
         var led = document.createElement("div");
-        led.className = "bled";
+        led.className = bigLedArray[i].class;
         led.style.top = bigLedArray[i].top;
         led.style.left = bigLedArray[i].left;
         $(".border").prepend(led);
