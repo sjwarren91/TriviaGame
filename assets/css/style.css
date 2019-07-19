@@ -13,7 +13,7 @@ body {
     box-shadow: inset -3px -3px 2px 0px #FF8301, inset 5px 5px 10px 0px rgb(104, 13, 1), -3px -3px 0 0 rgb(255, 187, 1);
     /*box-shadow: 5px 5px 20px yellow, 5px 5px 5px orange, -5px -5px 20px yellow, -5px -5px 5px orange;*/
     width: 40vw;
-    height: 365px;
+    height: 39vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,11 +31,9 @@ body {
 }
 
 .bled {
-    top: 25px;
-    left: 5px;
     height: 18px;
     width: 18px;
-    position: relative;
+    position: absolute;
     background-color: black;
     border-radius: 50%;
     z-index: 99;

@@ -1,3 +1,43 @@
+var x = (window.innerWidth * 0.4 - 60)/6;
+var y = (window.innerHeight * 0.39 + 20) / 4;
+var width = $(".container").width() +28;
+
+var bigLedArray = [
+    {top: "4px", left: x + "px"},
+    {top: "4px", left: 2*x + "px"},
+    {top: "4px", left: 3*x + "px"},
+    {top: "4px", left: 4*x + "px"},
+    {top: "4px", left: 5*x + "px"},
+    {top: "4px", left: 6*x + "px"},
+    {top: "394px", left: x + "px"},
+    {top: "394px", left: 2*x + "px"},
+    {top: "394px", left: 3*x + "px"},
+    {top: "394px", left: 4*x + "px"},
+    {top: "394px", left: 5*x + "px"},
+    {top: "394px", left: 6*x + "px"},
+    {top: "8px", left: "6px"},
+    {top: "390px", left: "6px"},
+    {top: y + "px", left: "6px"},
+    {top: 2*y + "px", left: "6px"},
+    {top: 3*y + "px", left: "6px"},
+    {top: y + "px", left: width + "px"},
+    {top: 2*y + "px", left: width + "px"},
+    {top: 3*y + "px", left: width + "px"},
+    {top: "8px", left: width + "px"},
+    {top: "390px", left: width + "px"}
+    
+];
+
+function bigLeds (){
+    for(let i = 0; i < bigLedArray.length; i++){
+        var led = document.createElement("div");
+        led.className = "bled";
+        led.style.top = bigLedArray[i].top;
+        led.style.left = bigLedArray[i].left;
+        $(".border").prepend(led);
+    }
+}
+
 var trivia = {
     right: 0,
     wrong: 0,
@@ -118,6 +158,8 @@ var trivia = {
 };
 
 $(document).ready(function() {
+    bigLeds();
+
     trivia.next();
 
     $(".choice").on("click", trivia.guess);
