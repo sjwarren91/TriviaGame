@@ -34,7 +34,47 @@ body {
     height: 18px;
     width: 18px;
     position: absolute;
-    background-color: black;
+    background-color: rgb(255, 246, 223);
     border-radius: 50%;
     z-index: 99;
+    animation: flash linear infinite 3s;
+}
+
+@keyframes flash {
+    0% {
+        background-color: rgb(255, 246, 223);
+        box-shadow: 5px 5px 10px 1px rgb(168, 144, 100),
+     -5px -5px 10px 1px rgb(168, 144, 100),
+      5px -5px 10px 1px rgb(168, 144, 100),
+       -5px 5px 10px 1px rgb(168, 144, 100);
+        
+    }
+
+    49% {
+        background-color: rgb(255, 246, 223);
+        box-shadow: 5px 5px 10px 1px rgb(168, 144, 100),
+     -5px -5px 10px 1px rgb(168, 144, 100),
+      5px -5px 10px 1px rgb(168, 144, 100),
+       -5px 5px 10px 1px rgb(168, 144, 100);
+        
+    }
+
+    50% {
+        background-color: rgb(73, 73, 73);
+        box-shadow: none;
+    }
+
+    99% {
+        background-color: rgb(90, 90, 90);
+        box-shadow: none;
+    }
+
+    100% {
+        background-color: rgb(255, 246, 223);
+        box-shadow: 5px 5px 10px 1px rgb(168, 144, 100),
+     -5px -5px 10px 1px rgb(168, 144, 100),
+      5px -5px 10px 1px rgb(168, 144, 100),
+       -5px 5px 10px 1px rgb(168, 144, 100);
+        
+    }
 }
