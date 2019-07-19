@@ -1,80 +1,89 @@
 var trivia = {
-    right : 0,
-    wrong : 0,
-    missed : 0,
-    currentQ : 0,
-    timer : 0,
-    clockRunning : "",
-    answerChosen : false,
-    
-    questions : {
-        q1 : "What are Durin's Folk more commonly known as?",
-        q2 : "What kind of creatures are the spawn of Ungoliant?",
-        q3 : "Which of these is not a public inn in Middle Earth?"
+    right: 0,
+    wrong: 0,
+    missed: 0,
+    currentQ: 0,
+    timer: 0,
+    clockRunning: "",
+    answerChosen: false,
+
+    questions: {
+        q1: "What are Durin's Folk more commonly known as?",
+        q2: "What kind of creatures are the spawn of Ungoliant?",
+        q3: "Which of these is not a public inn in Middle Earth?"
     },
 
-    choices : {
-        q1 : ["Hobbits from outside The Shire", "Dwarves", "Forest Elves", "Great Eagles"],
-        q2 : ["Hill Giants", "Uruk-hai", "Giant Spiders", "Flying fell beasts"],
-        q3 : ["The Old Guesthouse", "The Green Dragon", "The Prancing Pony", "The Southern Star"]
+    choices: {
+        q1: [
+            "Hobbits from outside The Shire",
+            "Dwarves",
+            "Forest Elves",
+            "Great Eagles"
+        ],
+        q2: ["Hill Giants", "Uruk-hai", "Giant Spiders", "Flying fell beasts"],
+        q3: [
+            "The Old Guesthouse",
+            "The Green Dragon",
+            "The Prancing Pony",
+            "The Southern Star"
+        ]
     },
 
-    answers : {
-        q1 : "Dwarves",
-        q2 : "Giant Spiders",
-        q3 : "The Southern Star"
+    answers: {
+        q1: "Dwarves",
+        q2: "Giant Spiders",
+        q3: "The Southern Star"
     },
 
-    next : function(){
+    next: function() {
         //set timer to 0
-        trivia.timer = 10;
-        $(".time").text(trivia.timer);
+        trivia.answerChosen = false;
+        trivia.timer = 2;
+        if (trivia.currentQ < 3) {
+            $(".time").text(trivia.timer);
+        }
+
         //start timer
         trivia.clockRunning = setInterval(trivia.clock, 1000);
         //display question and answers, get questions and answers from object
         var question = Object.values(trivia.questions)[trivia.currentQ];
-        console.log(question);
+
         var options = Object.values(trivia.choices)[trivia.currentQ];
-        console.log(options);
+
         //print question to question field
         $(".question").text(question);
         //print each option to option fields
-        $.each(options, function(index, value){
+        $.each(options, function(index, value) {
             $(".field" + index).text(value);
         });
     },
 
-    clock : function(){
+    clock: function() {
         //reaches 0 and nothing picked increment wrong
         //time greater than zero decrease timer
-        //timer zero and questions remaining 
+        //timer zero and questions remaining
 
-        if(trivia.timer === 0 && trivia.currentQ < 3){
-            if (trivia.answerChosen === false){
+        if (trivia.timer > 0 && trivia.currentQ < 3) {
+            trivia.timer--;
+            $(".time").text(trivia.timer);
+        } else if (trivia.timer === 0) {
+            if (trivia.answerChosen === false) {
                 trivia.missed++;
-                console.log(trivia.missed);
             }
             trivia.currentQ++;
             trivia.next();
             clearInterval(trivia.clockRunning);
+        } else {
+            trivia.endGame();
         }
-        else if (trivia.timer > 0 && trivia.currentQ < 3) {
-            trivia.timer--;
-            $(".time").text(trivia.timer);
-        }
-        else {
-            clearInterval(trivia.clockRunning);
-        }
-
-
     },
 
-    guess : function(){
+    guess: function() {
         //check clicked value with answer
-        
+        trivia.answerChosen = true;
         var thisAnswer = trivia.answers[trivia.currentQ];
         //if wrong ++ wrong set answer chosen to true
-        if(thisAnswer === $(this).text()){
+        if (thisAnswer === $(this).text()) {
             trivia.right++;
             console.log(trivia.right);
             clearInterval(trivia.clockRunning);
@@ -87,42 +96,32 @@ var trivia = {
         }
 
         trivia.currentQ++;
-        console.log(trivia.currentQ)
-        if (trivia.currentQ > 2){
+        console.log(trivia.currentQ);
+        if (trivia.currentQ > 2) {
             //call end game function
             trivia.endGame();
         } else {
             trivia.next();
         }
-
     },
 
-    endGame : function(){
+    endGame: function() {
         clearInterval(trivia.clockRunning);
+        $(".choice").off("click", trivia.guess);
         $(".question").text("Game Over!");
-        $(".field0"). text("Correct: " + trivia.right);
-        $(".field1"). text("Wrong: " + trivia.wrong);
-        $(".field2"). text("Missed: " + trivia.missed);
-        $(".field3"). text("");
-        $(".time").text("");
+        $(".field0").text("Correct: " + trivia.right);
+        $(".field1").text("Wrong: " + trivia.wrong);
+        $(".field2").text("Missed: " + trivia.missed);
+        $(".field3").text("");
+        $(".time").empty();
     }
+};
 
-}
-
-$(document).ready(function(){
-    
-
+$(document).ready(function() {
     trivia.next();
-    
-    $(".choice").on("click", trivia.guess)
-    
-})
 
-
-
-
-
-
+    $(".choice").on("click", trivia.guess);
+});
 
 // function Trivia(question, answerRight, answer2, answer3, answer4){
 //     this.question = question,
@@ -162,7 +161,7 @@ $(document).ready(function(){
 // function printQ(object){
 //     var field = [".field1", ".field2", ".field3", ".field4"];
 //     var answers = ["answerRight", "answer2", "answer3", "answer4"];
-    
+
 //     var index;
 //     var x = 4;
 //     $(".question").text(object.question);
@@ -186,4 +185,3 @@ $(document).ready(function(){
 //     time++;
 //     $(".time").text(time);
 // }
-
