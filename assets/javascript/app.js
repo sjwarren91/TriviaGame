@@ -1,6 +1,6 @@
-var x = (window.innerWidth * 0.4 - 60)/6;
+var x = (window.innerWidth * 0.45 - 60)/6;
 var y = ($(".container").height()/ 4) + 6;
-var x1 = ((window.innerWidth * 0.4 - 60)/12);
+var x1 = ((window.innerWidth * 0.45 - 60)/12);
 var y1 = ($(".container").height()/8) + 6;
 var width = $(".container").width() +28;
 var height = $(".container").height()+28;

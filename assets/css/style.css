@@ -12,8 +12,8 @@ body {
     );
     box-shadow: inset -3px -3px 2px 0px #FF8301, inset 5px 5px 10px 0px rgb(104, 13, 1), -3px -3px 0 0 rgb(255, 187, 1);
     /*box-shadow: 5px 5px 20px yellow, 5px 5px 5px orange, -5px -5px 20px yellow, -5px -5px 5px orange;*/
-    width: 40vw;
-    height: 366px;
+    width: 45vw;
+    height: 400px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,6 +47,12 @@ body {
     background-color: rgb(255, 246, 223);
     border-radius: 50%;
     animation: flash 3s linear 1.5s infinite;
+}
+
+h1 {
+    font-family: 'Monoton';
+    color: white;
+    text-shadow: 2px 2px rgb(78, 1, 1);
 }
 
 @keyframes flash {
