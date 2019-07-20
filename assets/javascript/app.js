@@ -104,7 +104,7 @@ var trivia = {
         //set timer to 0
         trivia.answerChosen = false;
         trivia.timer = 2;
-        if (trivia.currentQ < 3) {
+        if (trivia.currentQ < Object.keys(trivia.questions).length) {
             $(".time").text(trivia.timer);
         }
 
@@ -128,7 +128,7 @@ var trivia = {
         //time greater than zero decrease timer
         //timer zero and questions remaining
 
-        if (trivia.timer > 0 && trivia.currentQ < 3) {
+        if (trivia.timer > 0 && trivia.currentQ < Object.keys(trivia.questions).length) {
             trivia.timer--;
             $(".time").text(trivia.timer);
         } else if (trivia.timer === 0) {
@@ -162,7 +162,7 @@ var trivia = {
 
         trivia.currentQ++;
         console.log(trivia.currentQ);
-        if (trivia.currentQ > 2) {
+        if (trivia.currentQ >= Object.keys(trivia.questions).length) {
             //call end game function
             trivia.endGame();
         } else {
