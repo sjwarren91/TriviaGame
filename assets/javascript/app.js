@@ -75,7 +75,14 @@ var trivia = {
     questions: {
         q1: "What are Durin's Folk more commonly known as?",
         q2: "What kind of creatures are the spawn of Ungoliant?",
-        q3: "Which of these is not a public inn in Middle Earth?"
+        q3: "Which of these is not a public inn in Middle Earth?",
+        q4: "How many Rings of Power were forged in the second age?",
+        q5: "Gollum wasn't always Gollum. He was a hobbit of the River-folk. What was his name?",
+        q6: "Who is Shelob?",
+        q7: "Gandalf is imprisoned on top of Orthanc by Saruman. Who helps him escape?",
+        q8: "In the film adaptions of 'Lord of the Rings,' what is Aragorn's horse called?",
+        q9: "According to the books, who does Saruman call the 'Bird-whisperer'?",
+        q10: "Who stabs Saruman in the beginning of the movie 'The Return of the King'?"
     },
 
     choices: {
@@ -91,19 +98,34 @@ var trivia = {
             "The Green Dragon",
             "The Prancing Pony",
             "The Southern Star"
-        ]
+        ],
+        q4: ["1", "19", "20", "13"],
+        q5: ["Darren", "Bandobras", "Smeagol", "Tobold"],
+        q6: ["An Ent that befriends Pippin and Merry", "A spider that tries to eat Frodo", "An elf queen", "An Uruk-hai leader"],
+        q7: ["Aragorn, Gimli, and Legolas", "Frodo and Sam", "Gwaihir", "Gothmog"],
+        q8: ["Bill", "Brego", "Roheryn", "Asfaloth"],
+        q9: ["Radagast", "Gandalf", "Legolas", "Sam"],
+        q10: ["Theoden", "Aragorn", "Gandalf", "Wormtongue"]
+
     },
 
     answers: {
         q1: "Dwarves",
         q2: "Giant Spiders",
-        q3: "The Southern Star"
+        q3: "The Southern Star",
+        q4: "20",
+        q5: "Smeagol",
+        q6: "A spider that tries to eat Frodo",
+        q7: "Gwaihir",
+        q8: "Brego",
+        q9: "Radagast",
+        q10: "Wormtongue"
     },
 
     next: function() {
         //set timer to 0
         trivia.answerChosen = false;
-        trivia.timer = 2;
+        trivia.timer = 10;
         if (trivia.currentQ < Object.keys(trivia.questions).length) {
             $(".time").text(trivia.timer);
         }
@@ -145,29 +167,50 @@ var trivia = {
 
     guess: function() {
         //check clicked value with answer
+        $(".choice").off("click", trivia.guess);
         trivia.answerChosen = true;
-        var thisAnswer = trivia.answers[trivia.currentQ];
+        var thisAnswer = Object.values(trivia.answers)[trivia.currentQ];
         //if wrong ++ wrong set answer chosen to true
         if (thisAnswer === $(this).text()) {
             trivia.right++;
-            console.log(trivia.right);
+            
+            $(this).addClass("correct");
+            $(".time").text("Correct!");
+            
             clearInterval(trivia.clockRunning);
+            setTimeout(function(){
+               $(".choice").removeClass("correct");
+               $(".time").text("");
+               trivia.next();
+               $(".choice").on("click", trivia.guess);
+            }, 2000);
+            
         }
         //if right ++ right set answer chosen to true
         else {
             trivia.wrong++;
-            console.log(trivia.wrong);
+
+            $(this).addClass("incorrect");
+            $(".time").text("Wrong!");
+            
             clearInterval(trivia.clockRunning);
+            setTimeout(function(){
+               $(".choice").removeClass("incorrect");
+               $(".time").text("");
+               trivia.next();
+               $(".choice").on("click", trivia.guess);
+            }, 2000);
         }
 
         trivia.currentQ++;
-        console.log(trivia.currentQ);
+
         if (trivia.currentQ >= Object.keys(trivia.questions).length) {
             //call end game function
-            trivia.endGame();
-        } else {
-            trivia.next();
-        }
+            setTimeout(function(){
+               trivia.endGame(); 
+            }, 2000);
+            
+        };
     },
 
     endGame: function() {
@@ -177,7 +220,7 @@ var trivia = {
         $(".field0").text("Correct: " + trivia.right);
         $(".field1").text("Wrong: " + trivia.wrong);
         $(".field2").text("Missed: " + trivia.missed);
-        $(".field3").text("");
+        $(".field3").hide();
         $(".time").empty();
     }
 };
