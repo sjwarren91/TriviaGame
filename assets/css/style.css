@@ -1,8 +1,8 @@
 body {
     height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center !important;
+    align-items: center !important;
     background-color: black;
 }
 
@@ -12,7 +12,6 @@ body {
         #8A1001
     );
     box-shadow: inset -3px -3px 2px 0px #FF8301, inset 5px 5px 10px 0px rgb(104, 13, 1), -3px -3px 0 0 rgb(255, 187, 1);
-    /*box-shadow: 5px 5px 20px yellow, 5px 5px 5px orange, -5px -5px 20px yellow, -5px -5px 5px orange;*/
     width: 45vw;
     height: 400px;
     display: flex;

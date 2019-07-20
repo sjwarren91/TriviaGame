@@ -123,7 +123,7 @@ var trivia = {
     },
 
     next: function() {
-        //set timer to 0
+        //set timer to 10
         trivia.answerChosen = false;
         trivia.timer = 10;
         if (trivia.currentQ < Object.keys(trivia.questions).length) {
@@ -158,8 +158,8 @@ var trivia = {
                 trivia.missed++;
             }
             trivia.currentQ++;
-            trivia.next();
             clearInterval(trivia.clockRunning);
+            trivia.next();
         } else {
             trivia.endGame();
         }
@@ -167,38 +167,46 @@ var trivia = {
 
     guess: function() {
         //check clicked value with answer
-        $(".choice").off("click", trivia.guess);
+        
         trivia.answerChosen = true;
         var thisAnswer = Object.values(trivia.answers)[trivia.currentQ];
         //if wrong ++ wrong set answer chosen to true
         if (thisAnswer === $(this).text()) {
             trivia.right++;
-            
-            $(this).addClass("correct");
-            $(".time").text("Correct!");
-            
+            $(".border").css("opacity", "0");
+
+            Swal.fire({
+                type: 'success',
+                title: 'Correct!',
+                position: 'center',
+                showConfirmButton: false,
+                timer: 1800
+            });
+
             clearInterval(trivia.clockRunning);
             setTimeout(function(){
-               $(".choice").removeClass("correct");
-               $(".time").text("");
-               trivia.next();
-               $(".choice").on("click", trivia.guess);
+                $(".border").css("opacity", "1");
+                trivia.next();
             }, 2000);
-            
         }
         //if right ++ right set answer chosen to true
         else {
             trivia.wrong++;
+            $(".border").css("opacity", "0");
 
-            $(this).addClass("incorrect");
-            $(".time").text("Wrong!");
-            
+            Swal.fire({
+                type: 'error',
+                title: 'Incorrect',
+                text: "The correct answer is " + Object.values(trivia.answers)[trivia.currentQ],
+                position: 'center',
+                showConfirmButton: false,
+                timer: 1800
+            });
+
             clearInterval(trivia.clockRunning);
             setTimeout(function(){
-               $(".choice").removeClass("incorrect");
-               $(".time").text("");
-               trivia.next();
-               $(".choice").on("click", trivia.guess);
+                $(".border").css("opacity", "1");
+                trivia.next();
             }, 2000);
         }
 
@@ -220,10 +228,24 @@ var trivia = {
         $(".field0").text("Correct: " + trivia.right);
         $(".field1").text("Wrong: " + trivia.wrong);
         $(".field2").text("Missed: " + trivia.missed);
-        $(".field3").hide();
+        $(".field3").on("click", trivia.newGame);
+        $(".field3").text("Restart?");
         $(".time").empty();
+    },
+
+    newGame: function() {
+        $(".field3").off("click", trivia.newGame);
+        $(".choice").on("click", trivia.guess);
+        trivia.currentQ = 0;
+        trivia.missed = 0;
+        trivia.right = 0;
+        trivia.wrong = 0;
+        clearInterval(trivia.clockRunning);
+        trivia.next();
+        
     }
 };
+
 
 $(document).ready(function() {
     bigLeds();
@@ -232,66 +254,3 @@ $(document).ready(function() {
 
     $(".choice").on("click", trivia.guess);
 });
-
-// function Trivia(question, answerRight, answer2, answer3, answer4){
-//     this.question = question,
-//     this.answerRight = answerRight,
-//     this.answer2 = answer2,
-//     this.answer3 = answer3,
-//     this.answer4 = answer4
-// }
-
-// var first = new Trivia(
-//     "The beaver is the national emblem of which country?",
-//     "Canada",
-//     "United States of America",
-//     "Australia",
-//     "Africa"
-// )
-
-// var second = new Trivia(
-//     "Which TV character said, “Live long and prosper”?",
-//     "Mr. Spock",
-//     "Aragorn",
-//     "Luke Skywalker",
-//     "Superman"
-// )
-
-// var third = new Trivia(
-//     "What is the name of Batman’s butler?",
-//     "Alfred",
-//     "Gordon",
-//     "Robin",
-//     "Bruce"
-// )
-
-// var questions = [first, second, third];
-// var time = 0;
-
-// function printQ(object){
-//     var field = [".field1", ".field2", ".field3", ".field4"];
-//     var answers = ["answerRight", "answer2", "answer3", "answer4"];
-
-//     var index;
-//     var x = 4;
-//     $(".question").text(object.question);
-//     for(let i = 0; i < 4; i++){
-//         index = Math.floor(Math.random()*x);
-//         console.log(index);
-//         $(field[i]).text(object[answers[index]]);
-//         answers.splice(index, 1);
-//         x--;
-//     }
-// }
-
-// function chooseQ(){
-//     var index;
-//     index = Math.floor(Math.random()*questions.length);
-//     printQ(questions[index]);
-//     questions.splice(index, 1);
-// }
-
-// function count(){
-//     time++;
-//     $(".time").text(time);
-// }
