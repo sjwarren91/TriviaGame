@@ -1,3 +1,5 @@
+//some variables so the LEDs will fit the container on different screen sizes
+//however not dynamic, page needs to be refreshed
 var x = (window.innerWidth * 0.45 - 60)/6;
 var y = ($(".container").height()/ 4) + 6;
 var x1 = ((window.innerWidth * 0.45 - 60)/12);
@@ -5,6 +7,8 @@ var y1 = ($(".container").height()/8) + 6;
 var width = $(".container").width() +28;
 var height = $(".container").height()+28;
 
+//big array of LED positions, I'm sure there's an easier way to do this
+//but could not think of it at the time
 var bigLedArray = [
     {top: "4px", left: x + "px", class: "bled"},
     {top: "4px", left: 2*x + "px", class: "bled"},
@@ -53,6 +57,7 @@ var bigLedArray = [
     
 ];
 
+//append each div LED to position
 function bigLeds (){
     for(let i = 0; i < bigLedArray.length; i++){
         var led = document.createElement("div");
@@ -63,6 +68,7 @@ function bigLeds (){
     }
 }
 
+//setting up game object
 var trivia = {
     right: 0,
     wrong: 0,
@@ -123,7 +129,7 @@ var trivia = {
     },
 
     next: function() {
-        //set timer to 10
+        //reset timer to 10
         trivia.answerChosen = false;
         trivia.timer = 10;
         if (trivia.currentQ < Object.keys(trivia.questions).length) {
@@ -132,9 +138,9 @@ var trivia = {
 
         //start timer
         trivia.clockRunning = setInterval(trivia.clock, 1000);
+
         //display question and answers, get questions and answers from object
         var question = Object.values(trivia.questions)[trivia.currentQ];
-
         var options = Object.values(trivia.choices)[trivia.currentQ];
 
         //print question to question field
@@ -146,13 +152,13 @@ var trivia = {
     },
 
     clock: function() {
-        //reaches 0 and nothing picked increment wrong
+        //timer zero and questions remaining call next question
         //time greater than zero decrease timer
-        //timer zero and questions remaining
-
         if (trivia.timer > 0 && trivia.currentQ < Object.keys(trivia.questions).length) {
             trivia.timer--;
             $(".time").text(trivia.timer);
+
+        //reaches 0 and nothing picked increment missed    
         } else if (trivia.timer === 0) {
             if (trivia.answerChosen === false) {
                 trivia.missed++;
@@ -160,6 +166,7 @@ var trivia = {
             trivia.currentQ++;
             clearInterval(trivia.clockRunning);
             trivia.next();
+        // if no more questions to call end the game    
         } else {
             trivia.endGame();
         }
@@ -167,10 +174,9 @@ var trivia = {
 
     guess: function() {
         //check clicked value with answer
-        
         trivia.answerChosen = true;
         var thisAnswer = Object.values(trivia.answers)[trivia.currentQ];
-        //if wrong ++ wrong set answer chosen to true
+        //if wrong ++ wrong, set answer chosen to true
         if (thisAnswer === $(this).text()) {
             trivia.right++;
             $(".border").css("opacity", "0");
@@ -189,7 +195,7 @@ var trivia = {
                 trivia.next();
             }, 2000);
         }
-        //if right ++ right set answer chosen to true
+        //if right ++ right, set answer chosen to true
         else {
             trivia.wrong++;
             $(".border").css("opacity", "0");
@@ -210,10 +216,11 @@ var trivia = {
             }, 2000);
         }
 
+        //increment question set
         trivia.currentQ++;
 
+        //if no more questions left to ask end game
         if (trivia.currentQ >= Object.keys(trivia.questions).length) {
-            //call end game function
             setTimeout(function(){
                trivia.endGame(); 
             }, 2000);
@@ -221,6 +228,7 @@ var trivia = {
         };
     },
 
+    //function to end the game and show score
     endGame: function() {
         clearInterval(trivia.clockRunning);
         $(".choice").off("click", trivia.guess);
@@ -233,6 +241,7 @@ var trivia = {
         $(".time").empty();
     },
 
+    //reset function to initialize game to start
     newGame: function() {
         $(".field3").off("click", trivia.newGame);
         $(".choice").on("click", trivia.guess);
@@ -248,9 +257,10 @@ var trivia = {
 
 
 $(document).ready(function() {
+    //set up LEDs
     bigLeds();
-
+    //call first question
     trivia.next();
-
+    //click event for guessing answers
     $(".choice").on("click", trivia.guess);
 });
